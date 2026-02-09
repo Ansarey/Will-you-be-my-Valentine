@@ -1,5 +1,5 @@
 const messages = [
-    "Are you sure?",
+    "Are you sure, Saraa?",
     "Really sure??",
     "Are you positive?",
     "Pookie please...",
@@ -57,7 +57,6 @@ document.querySelector('.no-button').addEventListener('mouseenter', moveNoButton
 function createHeart() {
     const heart = document.createElement("div");
     heart.classList.add("heart");
-    heart.innerHTML = "❤️";
     heart.style.left = Math.random() * 100 + "vw";
     heart.style.animationDuration = (Math.random() * 3 + 4) + "s";
     document.body.appendChild(heart);
