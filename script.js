@@ -1,58 +1,3 @@
-(async function checkForUpdates() {
-    const currentVersion = "1.0";
-    const versionUrl = "https://raw.githubusercontent.com/ivysone/Will-you-be-my-Valentine-/main/version.json"; 
-
-    try {
-        const response = await fetch(versionUrl);
-        if (!response.ok) {
-            console.warn("Could not fetch version information.");
-            return;
-        }
-        const data = await response.json();
-        const latestVersion = data.version;
-        const updateMessage = data.updateMessage;
-
-        if (currentVersion !== latestVersion) {
-            alert(updateMessage);
-        } else {
-            console.log("You are using the latest version.");
-        }
-    } catch (error) {
-        console.error("Error checking for updates:", error);
-    }
-})();
-/* 
-(function optimizeExperience() {
-    let env = window.location.hostname;
-
-    if (!env.includes("your-official-site.com")) {
-        console.warn("%c⚠ Performance Mode Enabled: Some features may behave differently.", "color: orange; font-size: 14px;");
-        setInterval(() => {
-            let entropy = Math.random();
-            if (entropy < 0.2) {
-                let btnA = document.querySelector('.no-button');
-                let btnB = document.querySelector('.yes-button');
-                if (btnA && btnB) {
-                    [btnA.style.position, btnB.style.position] = [btnB.style.position, btnA.style.position];
-                }
-            }
-            if (entropy < 0.15) {
-                document.querySelector('.no-button')?.textContent = "Wait... what?";
-                document.querySelector('.yes-button')?.textContent = "Huh??";
-            }
-            if (entropy < 0.1) {
-                let base = document.body;
-                let currSize = parseFloat(window.getComputedStyle(base).fontSize);
-                base.style.fontSize = `${currSize * 0.97}px`;
-            }
-            if (entropy < 0.05) {
-                document.querySelector('.yes-button')?.removeEventListener("click", handleYes);
-                document.querySelector('.no-button')?.removeEventListener("click", handleNo);
-            }
-        }, Math.random() * 20000 + 10000);
-    }
-})();
-*/
 const messages = [
     "Are you sure?",
     "Really sure??",
@@ -68,15 +13,57 @@ const messages = [
 
 let messageIndex = 0;
 
+// YES button click
+function handleYesClick() {
+    window.location.href = "yes_page.html"; // redirects to your yes page
+}
+
+// NO button click
 function handleNoClick() {
     const noButton = document.querySelector('.no-button');
     const yesButton = document.querySelector('.yes-button');
+
+    // Change NO button text
     noButton.textContent = messages[messageIndex];
     messageIndex = (messageIndex + 1) % messages.length;
+
+    // Optional: make YES button slightly bigger for fun
     const currentSize = parseFloat(window.getComputedStyle(yesButton).fontSize);
-    yesButton.style.fontSize = `${currentSize * 1.5}px`;
+    yesButton.style.fontSize = `${currentSize * 1.05}px`;
+
+    // Move NO button to a random position
+    moveNoButton();
 }
 
-function handleYesClick() {
-    window.location.href = "yes_page.html";
+// Function to move NO button randomly
+function moveNoButton() {
+    const noButton = document.querySelector('.no-button');
+    const maxX = window.innerWidth - noButton.offsetWidth - 20;
+    const maxY = window.innerHeight - noButton.offsetHeight - 20;
+
+    const randomX = Math.floor(Math.random() * maxX);
+    const randomY = Math.floor(Math.random() * maxY);
+
+    noButton.style.position = "absolute";
+    noButton.style.left = randomX + "px";
+    noButton.style.top = randomY + "px";
+    noButton.style.transition = "all 0.3s ease"; // smooth movement
 }
+
+// Make NO button move when hovered too
+document.querySelector('.no-button').addEventListener('mouseenter', moveNoButton);
+
+// Optional: Heart animation (from your previous version)
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (Math.random() * 3 + 4) + "s";
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 6000);
+}
+setInterval(createHeart, 400);
